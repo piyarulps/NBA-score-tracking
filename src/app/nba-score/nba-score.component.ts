@@ -1,56 +1,59 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
-interface City {
-  name: string,
-  code: string
-}
+import { TeamList } from '../Shared/api.modal';
+
 @Component({
   selector: 'app-nba-score',
   templateUrl: './nba-score.component.html',
   styleUrls: ['./nba-score.component.scss']
 })
-export class NbaScoreComponent {
+export class NbaScoreComponent implements OnInit{
   title = 'angular15';
-  public cities: City[];
-  public data:boolean=false;
-  public selectedTeam: City | undefined;
-  public seelectedAllTeam:Array<any>=[]
-
+  public teams: TeamList[] =[];
+  public selectedTeam!: TeamList;
+  public seelectedAllTeam:Array<TeamList>=[]
+  public ImgURl:string="https://interstate21.com/nba-logos/"
+  public fileType:string ='.png';
 
   constructor(private service:ApiService , private router:Router){
     this.getData();
-    this.cities = [
-      {name: 'New York', code: 'NY'},
-      {name: 'Rome', code: 'RM'},
-      {name: 'London', code: 'LDN'},
-      {name: 'Istanbul', code: 'IST'},
-      {name: 'Paris', code: 'PRS'}
-  ];
+  }
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.seelectedAllTeam =this.service.selectedTeamList;
+    console.log(this.service.selectedTeamList);
+    console.log(this.seelectedAllTeam);
+    
   }
   trackTeam(){
     console.log(this.selectedTeam);
-    this.data=true;
+    this.service.getTeam(this.selectedTeam.id).subscribe(res=>{
+      console.log(res);
+      
+    })
     this.seelectedAllTeam.push(this.selectedTeam);
-    this.selectedTeam =undefined;
-
+    this.service.selectedTeamList= this.seelectedAllTeam;
   }
 
   private getData() {
-    this.service.getData().subscribe(res=>{
-      console.log(res);
+    this.service.getTeamList().subscribe(res=>{
+      console.log(res.data)
+      this.teams=res.data;
     })
   }
   closeTeam(index:number){
     console.log(index);
     this.seelectedAllTeam.splice(index, 1);
     console.log(this.seelectedAllTeam);
-    
+    this.service.selectedTeamList= this.seelectedAllTeam;
+
     
   }
-  resultPage(team:any){
-    console.log(team);
-    this.router.navigateByUrl('/nba-team-result')
+  resultPage(teamCode:any){
+    console.log(teamCode.id);
+    this.router.navigate(['/results', teamCode.id]);
 
   }
 }
