@@ -1,0 +1,55 @@
+<div class="conatiner main-box  p-4">
+    <h3>NBA Score Tracking App</h3>
+  
+    <div class="mr-4">
+      <p-dropdown styleClass="mr-2" [options]="cities" [(ngModel)]="selectedTeam" placeholder="Select a NBA Team"
+        optionLabel="name" [showClear]="true"></p-dropdown>
+      <p-button (onClick)="trackTeam()" label="Track Team"></p-button>
+    </div>
+  
+    <div *ngIf="data" class="score-board mt-4">
+      <div class="grid">
+        <div class="col-6" *ngFor="let team of seelectedAllTeam; let i = index">
+          <p-card [style]="{width: '360px'}" styleClass="shadow-2 ">
+            <ng-template pTemplate="header">
+              <div class="header">
+                <span class="ml-2 text-900 font-bold">Golden State Warriors(GSW)</span>
+                <button pButton type="button" (click)="closeTeam(i)" icon="pi pi-times"
+                  class=" p-ripple p-button-rounded p-button-text p-button-plain p-button p-component p-button-icon-only"></button>
+              </div>
+              <span class="ml-2 text-900 text-sm ">Welcome conferances</span>
+              <div class="mt-3 blank"></div>
+            
+            </ng-template>
+            <div class="container-body">
+              <div class="left-text">
+                  <span class="ml-2 text-900 text-sm ">result of pass 12 days</span>
+                  <div class="body-box">
+                      <div class="win-box">W</div>
+                      <div class="Loss-box">L</div>
+                      <div class="win-box">W</div>
+                      <div class="win-box">W</div>
+                      <div class="Loss-box">L</div>
+                      <div class="Loss-box">L</div>
+                      <div class="win-box">W</div>
+  
+                  </div>
+                  <span class="ml-2 text-900 text-sm ">Avg pts scroed : <b>109</b> </span><br>
+                  <span class="ml-2 text-900 text-sm ">Avg pts concened : <b>100</b></span>
+  
+                 
+              </div>
+              <div class="right-picture">
+                  <img class="image-position" alt="Card" src="https://picsum.photos/200/200">
+              </div>
+             
+          </div>
+            <ng-template pTemplate="footer">
+              <p-button (click)="resultPage(team)" label="See game results >>"></p-button>
+            </ng-template>
+          </p-card>
+        </div>
+      </div>
+  
+    </div>
+  </div>

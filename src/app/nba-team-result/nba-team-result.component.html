@@ -1,0 +1,36 @@
+<div class="conatiner main-box  p-4">
+  <h3>NBA Score Tracking App</h3>
+
+  <div class="score-board mt-4">
+    <div class="grid">
+      <div class="col-6">
+        <p-card [style]="{width: '360px'}" styleClass="shadow-2 ">
+          <ng-template pTemplate="header">
+            <div>
+                <span class="ml-2 text-900 font-bold">Golden State Warriors(GSW)</span>
+            </div>
+          </ng-template>
+          <span class="ml-2 text-900 text-sm ">Western conferances</span>
+            <div class="mt-3 blank"></div>
+          <div class="container-body">
+            <div class="left-text">
+              <span class="ml-2 text-900 text-sm ">Scroes of past 12 days</span>
+              <div class="body-box">
+                <div class="details" *ngFor="let score of scoreList">
+                    <span> <b>SAC </b> 101 </span> <span>109 <b>CHI </b> </span> 
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+          <ng-template pTemplate="footer">
+            <p-button (click)="Back()" label="<< Back to all team stats"></p-button>
+          </ng-template>
+        </p-card>
+      </div>
+    </div>
+
+  </div>
+</div>
