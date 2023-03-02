@@ -14,13 +14,15 @@ import { ApiService } from './api.service';
 import {CardModule} from 'primeng/card';
 import { NbaScoreComponent } from './nba-score/nba-score.component';
 import { NbaTeamResultComponent } from './nba-team-result/nba-team-result.component';
+import { SocreboardPipe } from './Shared/pipe/socreboard.pipe';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NbaScoreComponent,
-    NbaTeamResultComponent
+    NbaTeamResultComponent,
+    SocreboardPipe
   ],
   imports: [
     BrowserModule,

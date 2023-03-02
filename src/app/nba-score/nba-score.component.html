@@ -10,7 +10,7 @@
     <div *ngIf="seelectedAllTeam.length" class="score-board mt-4">
       <div class="grid">
         <div class="col-6" *ngFor="let team of seelectedAllTeam; let i = index">
-          <p-card [style]="{width: '360px'}" styleClass="shadow-2 ">
+          <p-card [style]="{width: '30rem'}" styleClass="shadow-2 ">
             <ng-template pTemplate="header">
               <div class="header">
                 <span class="ml-2 text-900 font-bold">{{ team.full_name}}( {{ team.abbreviation}})</span>
@@ -24,18 +24,11 @@
             <div class="container-body">
               <div class="left-text">
                   <span class="ml-2 text-900 text-sm ">result of pass 12 days</span>
-                  <div class="body-box">
-                      <div class="win-box">W</div>
-                      <div class="Loss-box">L</div>
-                      <div class="win-box">W</div>
-                      <div class="win-box">W</div>
-                      <div class="Loss-box">L</div>
-                      <div class="Loss-box">L</div>
-                      <div class="win-box">W</div>
-  
+                  <div class="body-box" >
+                      <div  [ngClass]="score.self_score>score.oppt_score ? 'win-box' : 'Loss-box'" *ngFor="let score of team.results">{{ score.self_score>score.oppt_score?'W':'L'}}</div>
                   </div>
-                  <span class="ml-2 text-900 text-sm ">Avg pts scroed : <b>109</b> </span><br>
-                  <span class="ml-2 text-900 text-sm ">Avg pts concened : <b>100</b></span>
+                  <span class="ml-2 text-900 text-sm ">Avg pts scroed : <b>{{ team.selfAvgScore }}</b> </span><br>
+                  <span class="ml-2 text-900 text-sm ">Avg pts conceded : <b>{{ team.opptAvgScore }}</b></span>
   
                  
               </div>

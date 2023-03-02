@@ -1,26 +1,71 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TeamList } from './Shared/api.modal';
+import { environment } from 'src/environments/environment.prod';
+import { TeamList, TeamListDeatils } from './Shared/api.modal';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  public selectedTeamList:Array<TeamList>=[];
-  private URL = 'https://free-nba.p.rapidapi.com/teams';
-  private teamURL=`https://free-nba.p.rapidapi.com/games?page=0&dates[]=2022-12-12&dates[]=2022-12-11&dates[]=2022-12-10&dates[]=2022-12-09&dates[]=2022-12-08&dates[]=2022-12-07&dates[]=2022-12-06&dates[]=2022-12-05&dates[]=2022-12-04&dates[]=2022-12-03&dates[]=2022-12-02&dates[]=2022-12-01&per_page=12&`
-  private teamCode='';
-  constructor(private http: HttpClient) { }
+  public selectedTeamList: Array < TeamListDeatils >= [];
+  private URL =environment.apiUrl;
 
-  getTeamList(): Observable<any> {
-    return this.http
-      .get<any>(this.URL);
+  private teamURL = `https://free-nba.p.rapidapi.com/games?page=0&&per_page=12`
+  private teamCode = '';
+  constructor(private http: HttpClient) {
+ 
   }
-  getTeam(id:number): Observable<any> {
+
+  getParams( ){
+    var dates ='';
+    for (let i = 0; i < 12; i++) {
+      var date = new Date();
+      date.setDate(date.getDate() - 1);
+      var thatDay = date.getDate() - i; //Current Date
+      date.setDate(thatDay);
+      let day = date.getDate();
+      let month = date.getMonth() + 1;
+      let year = date
+        .getFullYear();
+      let DD;
+      let MM;
+
+      if(month<10) {
+          MM='0'+month;
+       } 
+   
+       if(day<10) {
+           DD='0'+day;
+       }else{
+        DD=day
+       } 
+       dates=dates +'&dates[]='+year+'-'+MM + '-' +  DD;
+      
+    }    
+    console.log(dates)
+    return dates
+  }
+  getTeamList(): Observable < any > {
+    let url= this.URL+'/teams';
+    return this.http
+      .get < any > (url);
+  }
+  getTeam(id: number,params:string): Observable < any > {
+    let url=this.URL+'/games?page=0&&per_page=12'+this.teamURL +params;
+    console.log(url);
+    
     let queryParams = new HttpParams();
     queryParams = queryParams.append('team_ids[]', id);
     return this.http
-      .get<any>(this.teamURL, { params: queryParams });
+      .get < any > (url, {
+        params: queryParams
+      });
+  }
+  getTeamResult(id: string): Observable < any > {
+    let url = this.URL+'/teams/'+ id
+    return this.http
+      .get < any > (url);
   }
 }
