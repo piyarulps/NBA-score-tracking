@@ -1,48 +1,94 @@
-<div class="conatiner main-box  p-4">
-    <h3>NBA Score Tracking App</h3>
-  
-    <div class="mr-4">
-      <p-dropdown styleClass="mr-2" [options]="teams" [(ngModel)]="selectedTeam" placeholder="Select a NBA Team"
-        optionLabel="full_name" [showClear]="true"></p-dropdown>
-      <p-button (onClick)="trackTeam()" label="Track Team"></p-button>
-    </div>
-  
-    <div *ngIf="seelectedAllTeam.length" class="score-board mt-4">
-      <div class="grid">
-        <div class="col-6" *ngFor="let team of seelectedAllTeam; let i = index">
-          <p-card [style]="{width: '30rem'}" styleClass="shadow-2 ">
-            <ng-template pTemplate="header">
-              <div class="header">
-                <span class="ml-2 text-900 font-bold">{{ team.full_name}}( {{ team.abbreviation}})</span>
-                <button pButton type="button" (click)="closeTeam(i)" icon="pi pi-times"
-                  class=" p-ripple p-button-rounded p-button-text p-button-plain p-button p-component p-button-icon-only"></button>
+<div class="conatiner main-box p-4">
+  <h3>NBA Score Tracking App</h3>
+
+  <div class="mr-4 flex">
+    <p-dropdown
+      styleClass="mr-2 flex-grow-1 w-75"
+      [disabled]="!teams.length"
+      [options]="teams"
+      [(ngModel)]="selectedTeam"
+      placeholder="Select a NBA Team"
+      optionLabel="full_name"
+      [showClear]="true"
+      styleCLass="fixed-Position"
+    ></p-dropdown>
+    <p-button
+      (onClick)="trackTeam()"
+      [disabled]="!teams.length"
+      [label]="!teams.length ? '' : 'Track Team'"
+      [icon]="!teams.length ? 'pi pi-spin pi-spinner' : ''"
+    ></p-button>
+  </div>
+
+  <div *ngIf="seelectedAllTeam.length" class="score-board mt-4">
+    <div class="grid">
+      <div
+        class="col-12 md:col-6 lg:col-4"
+        *ngFor="let team of seelectedAllTeam; let i = index"
+      >
+        <p-card styleClass="shadow-2 ">
+          <ng-template pTemplate="header">
+            <div class="header">
+              <span class="ml-2 text-900 font-bold"
+                >{{ team.full_name }}( {{ team.abbreviation }})</span
+              >
+              <button
+                pButton
+                type="button"
+                (click)="closeTeam(i)"
+                icon="pi pi-times"
+                class="
+                  p-ripple
+                  p-button-rounded
+                  p-button-text
+                  p-button-plain
+                  p-button
+                  p-component
+                  p-button-icon-only
+                "
+              ></button>
+            </div>
+            <span class="ml-2 text-900 text-sm"
+              >{{ team.conference }} conference</span
+            >
+            <div class="mt-3 blank"></div>
+          </ng-template>
+          <div class="container-body">
+            <div class="left-text">
+              <span class="ml-2 text-900 text-sm">result of pass 12 days</span>
+              <div class="body-box">
+                <div
+                  [ngClass]="
+                    score.self_score > score.oppt_score ? 'win-box' : 'Loss-box'
+                  "
+                  *ngFor="let score of team.results"
+                >
+                  {{ score.self_score > score.oppt_score ? 'W' : 'L' }}
+                </div>
               </div>
-              <span class="ml-2 text-900 text-sm ">{{ team.conference}} conference</span>
-              <div class="mt-3 blank"></div>
-            
-            </ng-template>
-            <div class="container-body">
-              <div class="left-text">
-                  <span class="ml-2 text-900 text-sm ">result of pass 12 days</span>
-                  <div class="body-box" >
-                      <div  [ngClass]="score.self_score>score.oppt_score ? 'win-box' : 'Loss-box'" *ngFor="let score of team.results">{{ score.self_score>score.oppt_score?'W':'L'}}</div>
-                  </div>
-                  <span class="ml-2 text-900 text-sm ">Avg pts scroed : <b>{{ team.selfAvgScore }}</b> </span><br>
-                  <span class="ml-2 text-900 text-sm ">Avg pts conceded : <b>{{ team.opptAvgScore }}</b></span>
-  
-                 
-              </div>
-              <div class="right-picture">
-                  <img class="image-position" alt="Card" [src]="ImgURl+team.abbreviation+fileType">
-              </div>
-             
+              <span class="ml-2 text-900 text-sm"
+                >Avg pts scroed : <b>{{ team.selfAvgScore }}</b> </span
+              ><br />
+              <span class="ml-2 text-900 text-sm"
+                >Avg pts conceded : <b>{{ team.opptAvgScore }}</b></span
+              >
+            </div>
+            <div class="right-picture">
+              <img
+                class="image-position"
+                alt="Card"
+                [src]="ImgURl + team.abbreviation + fileType"
+              />
+            </div>
           </div>
-            <ng-template pTemplate="footer">
-              <p-button (click)="resultPage(team)" label="See game results >>"></p-button>
-            </ng-template>
-          </p-card>
-        </div>
+          <ng-template pTemplate="footer">
+            <p-button
+              (click)="resultPage(team)"
+              label="See game results >>"
+            ></p-button>
+          </ng-template>
+        </p-card>
       </div>
-  
     </div>
   </div>
+</div>
