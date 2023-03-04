@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment.prod';
-import { TeamList, TeamListDeatils } from './Shared/api.modal';
+import { environment } from '../environments/environment.prod';
+import { APIConst } from './Shared/globalConst';
+import {  TeamListDeatils } from './Shared/team.modal';
 
 
 @Injectable({
@@ -11,9 +12,8 @@ import { TeamList, TeamListDeatils } from './Shared/api.modal';
 export class ApiService {
   public selectedTeamList: Array < TeamListDeatils >= [];
   private URL =environment.apiUrl;
-
-  private teamURL = `https://free-nba.p.rapidapi.com/games?page=0&&per_page=12`
-  private teamCode = '';
+  private teamUrlEndpoint :string=APIConst.games;
+  private teamResultUrlEndpoint :string=APIConst.teams;
   constructor(private http: HttpClient) {
  
   }
@@ -48,14 +48,12 @@ export class ApiService {
     return dates
   }
   getTeamList(): Observable < any > {
-    let url= this.URL+'/teams';
+    let url= this.URL+this.teamResultUrlEndpoint;
     return this.http
       .get < any > (url);
   }
   getTeam(id: number,params:string): Observable < any > {
-    let url=this.URL+'/games?page=0&&per_page=12'+this.teamURL +params;
-    console.log(url);
-    
+    let url=this.URL+this.teamUrlEndpoint +params;    
     let queryParams = new HttpParams();
     queryParams = queryParams.append('team_ids[]', id);
     return this.http
@@ -64,7 +62,7 @@ export class ApiService {
       });
   }
   getTeamResult(id: string): Observable < any > {
-    let url = this.URL+'/teams/'+ id
+    let url = this.URL+this.teamResultUrlEndpoint+'/'+ id;
     return this.http
       .get < any > (url);
   }

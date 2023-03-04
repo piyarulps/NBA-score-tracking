@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { subscribeOn } from 'rxjs';
 import { ApiService } from '../api.service';
-import { TeamList, teamResults } from '../Shared/api.modal';
+import { TeamList, teamResults } from '../Shared/team.modal';
 
 @Component({
   selector: 'app-nba-team-result',
@@ -16,20 +16,13 @@ export class NbaTeamResultComponent implements OnInit, OnDestroy{
   public results: Array<teamResults>=[] ;
   public teamdetails: TeamList | undefined;
   constructor(private service:ApiService, private router:Router,
-    private route: ActivatedRoute){
-    
-    
-  }
+    private route: ActivatedRoute){    
+}
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
     this.sub = this.route.params.subscribe(params => {
       this.teamCode = +params['teamCode']; // (+) converts string 'id' to a number
-      console.log(this.teamCode);
       this.getTeamResult(params['teamCode']);
-      this.getTeamDetails(params['teamCode']);
-      
-      
+      this.getTeamDetails(params['teamCode']);      
    });
     
   }
@@ -37,13 +30,11 @@ export class NbaTeamResultComponent implements OnInit, OnDestroy{
     const dateParams=this.service.getParams();
     this.service.getTeam(teamCode,dateParams).subscribe(res=>{
       this.results=res.data;
-      console.log(res);
     })
   }
   getTeamDetails(teamCode:number){
     this.service.getTeamResult((teamCode).toString()).subscribe(res=>{
       this.teamdetails=res;
-      console.log(res);
     })
   }
   Back(){

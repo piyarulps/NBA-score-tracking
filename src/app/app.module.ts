@@ -8,7 +8,7 @@ import {AccordionModule} from 'primeng/accordion';
 import {DropdownModule} from 'primeng/dropdown';
 import {FormsModule} from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {  HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './api.interceptor';
 import { ApiService } from './api.service';
 import {CardModule} from 'primeng/card';
@@ -40,8 +40,7 @@ import { SocreboardPipe } from './Shared/pipe/socreboard.pipe';
     ApiService, {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
-    multi: true // option. This is required and tells Angular that HTTP_INTERCEPTORS is an array of values, rather than a single value.
-  }
+    multi: true }
 ],
   bootstrap: [AppComponent]
 })
